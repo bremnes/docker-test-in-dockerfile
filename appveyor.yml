@@ -8,4 +8,8 @@ install:
   - docker version
 
 build_script:
-  - docker build -f CalculatorWeb/Dockerfile .
+  - docker build -f src/CalculatorWeb/Dockerfile src
+  
+only_commits:
+  files:
+    - src/
