@@ -1,0 +1,11 @@
+version: 1.0.{build}
+image: ubuntu
+
+services:
+  - docker
+
+install:
+  - docker version
+
+build_script:
+  - docker build -f CalculatorWeb/Dockerfile .

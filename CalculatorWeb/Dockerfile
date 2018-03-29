@@ -6,7 +6,7 @@ FROM microsoft/aspnetcore-build:2.0 AS build
 ARG FAILTEST
 ENV FAILTEST ${FAILTEST:-false}
 WORKDIR /src
-COPY POC-DotnetTestsInMultiStageDocker.sln ./
+COPY CalculatorExample.sln ./
 COPY CalculatorWeb/CalculatorWeb.csproj CalculatorWeb/
 COPY CalculatorLogic/CalculatorLogic.csproj CalculatorLogic/
 RUN dotnet restore -nowarn:msb3202,nu1503
