@@ -1,0 +1,8 @@
+version: '3'
+
+services:
+  calculatorweb:
+    image: calculatorweb
+    build:
+      context: .
+      dockerfile: CalculatorWeb/Dockerfile
