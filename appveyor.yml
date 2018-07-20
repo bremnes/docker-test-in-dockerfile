@@ -8,8 +8,14 @@ install:
   - docker version
 
 build_script:
-  - docker build -f src/CalculatorWeb/Dockerfile src
-  
+  - docker build -f src/CalculatorWeb/Dockerfile src -t calculatorweb:$APPVEYOR_BUILD_ID
+
+test_script:
+  - IMG_ID=$(docker create calculatorweb:$APPVEYOR_BUILD_ID)
+  - docker cp ${IMG_ID}:/testresults/ .
+  - docker rm ${IMG_ID}
+  - find testresults -type f -name '*.trx' -print0 | xargs -0 -I '{}' curl -F 'file=@{}' "https://ci.appveyor.com/api/testresults/mstest/$APPVEYOR_JOB_ID"
 only_commits:
   files:
     - src/
+    - appveyor.yml
