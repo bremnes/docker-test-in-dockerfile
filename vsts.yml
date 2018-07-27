@@ -1,0 +1,20 @@
+queue: Hosted Linux Preview
+name: $(BuildDefinitionName)_$(Date:yyyyMMdd)$(Rev:.rr)
+
+steps:
+- task: Docker@0
+  displayName: Build an image
+  inputs:
+    defaultContext: false
+    context: src
+- bash: |
+    IMG_ID=$(docker create $BUILD_REPOSITORY_NAME:$BUILD_BUILDID)
+    docker cp ${IMG_ID}:/testresults/ .
+    docker rm ${IMG_ID}
+  failOnStderr: true
+  displayName: Bash Script
+- task: PublishTestResults@2
+  displayName: Publish Test Results **/*.trx
+  inputs:
+    testRunner: VSTest
+    testResultsFiles: '**/*.trx'
